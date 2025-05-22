@@ -8,7 +8,7 @@
                 "command": "powershell",
                 "args": [
                     "-ExecutionPolicy", "Bypass",
-                    "-File", "create-project.ps1",
+                    "-File", "F:\\Project\\VSCode\\create-project.ps1",
                     "${input:projectName}",
                     "${input:projectLocation}",
                     "${input:projectType}",
@@ -56,6 +56,8 @@
                 "type": "pickString",
                 "options": [
                     "Poetry",
+                    "venv",
+                    "conda",
                     "None"
                 ],
                 "default": "None"

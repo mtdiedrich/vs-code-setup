@@ -162,7 +162,13 @@ if (Test-Path $KeybindingsPath) {
     try {
         $KeybindingsJson = Get-Content $KeybindingsPath -Raw
         if (-not [string]::IsNullOrWhiteSpace($KeybindingsJson)) {
-            $ExistingKeybindings = $KeybindingsJson | ConvertFrom-Json
+            $ParsedKeybindings = $KeybindingsJson | ConvertFrom-Json
+            # Ensure it's treated as an array
+            if ($ParsedKeybindings -is [System.Array]) {
+                $ExistingKeybindings = $ParsedKeybindings
+            } else {
+                $ExistingKeybindings = @($ParsedKeybindings)
+            }
         }
     } catch {
         Write-Host "Warning: Could not parse existing keybindings.json" -ForegroundColor Yellow
@@ -188,9 +194,16 @@ foreach ($TemplateKeybinding in $TemplateSettings.keybindings) {
     }
 }
 
-# Save keybindings
+# Save keybindings as array
 try {
-    $KeybindingsJson = $NewKeybindings | ConvertTo-Json -Depth 5
+    if ($NewKeybindings.Count -eq 0) {
+        $KeybindingsJson = "[]"
+    } elseif ($NewKeybindings.Count -eq 1) {
+        # Force single item to be in array format
+        $KeybindingsJson = "[$($NewKeybindings[0] | ConvertTo-Json -Depth 5)]"
+    } else {
+        $KeybindingsJson = $NewKeybindings | ConvertTo-Json -Depth 5
+    }
     Set-Content -Path $KeybindingsPath -Value $KeybindingsJson -Encoding UTF8
     Write-Host "✓ Updated keybindings.json" -ForegroundColor Green
 } catch {

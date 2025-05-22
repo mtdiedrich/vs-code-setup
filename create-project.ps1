@@ -127,7 +127,7 @@ htmlcov/
         Write-Host "✓ Created .gitignore" -ForegroundColor Green
     }
     
-    # Initialize poetry if selected
+    # Initialize virtual environment based on selection
     if ($VirtualEnv -eq "Poetry") {
         Write-Host "Initializing Poetry..." -ForegroundColor Yellow
         if (Get-Command poetry -ErrorAction SilentlyContinue) {
@@ -155,6 +155,48 @@ htmlcov/
             Write-Host "✓ Poetry virtual environment created" -ForegroundColor Green
         } else {
             Write-Host "Error: Poetry not found - please install Poetry first" -ForegroundColor Red
+            Write-Host "Cleaning up project folder..." -ForegroundColor Yellow
+            Set-Location ..
+            Remove-Item -Path $ProjectPath -Recurse -Force
+            exit 1
+        }
+    } elseif ($VirtualEnv -eq "venv") {
+        Write-Host "Creating venv virtual environment..." -ForegroundColor Yellow
+        if (Get-Command python -ErrorAction SilentlyContinue) {
+            Write-Host "Running: python -m venv venv" -ForegroundColor Gray
+            python -m venv venv
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "Error: venv creation failed with exit code $LASTEXITCODE" -ForegroundColor Red
+                Write-Host "Cleaning up project folder..." -ForegroundColor Yellow
+                Set-Location ..
+                Remove-Item -Path $ProjectPath -Recurse -Force
+                exit 1
+            }
+            Write-Host "✓ venv virtual environment created" -ForegroundColor Green
+            Write-Host "Note: Activate with 'venv\Scripts\activate' (Windows) or 'source venv/bin/activate' (Linux/Mac)" -ForegroundColor Cyan
+        } else {
+            Write-Host "Error: Python not found - please install Python first" -ForegroundColor Red
+            Write-Host "Cleaning up project folder..." -ForegroundColor Yellow
+            Set-Location ..
+            Remove-Item -Path $ProjectPath -Recurse -Force
+            exit 1
+        }
+    } elseif ($VirtualEnv -eq "conda") {
+        Write-Host "Creating conda virtual environment..." -ForegroundColor Yellow
+        if (Get-Command conda -ErrorAction SilentlyContinue) {
+            Write-Host "Running: conda create --name $ProjectName python -y" -ForegroundColor Gray
+            conda create --name $ProjectName python -y
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "Error: conda environment creation failed with exit code $LASTEXITCODE" -ForegroundColor Red
+                Write-Host "Cleaning up project folder..." -ForegroundColor Yellow
+                Set-Location ..
+                Remove-Item -Path $ProjectPath -Recurse -Force
+                exit 1
+            }
+            Write-Host "✓ conda virtual environment '$ProjectName' created" -ForegroundColor Green
+            Write-Host "Note: Activate with 'conda activate $ProjectName'" -ForegroundColor Cyan
+        } else {
+            Write-Host "Error: conda not found - please install Anaconda or Miniconda first" -ForegroundColor Red
             Write-Host "Cleaning up project folder..." -ForegroundColor Yellow
             Set-Location ..
             Remove-Item -Path $ProjectPath -Recurse -Force

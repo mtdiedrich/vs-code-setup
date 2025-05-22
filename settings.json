@@ -1,0 +1,82 @@
+{
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Create Python Project",
+                "type": "shell",
+                "command": "powershell",
+                "args": [
+                    "-ExecutionPolicy", "Bypass",
+                    "-File", "create-project.ps1",
+                    "${input:projectName}",
+                    "${input:projectLocation}",
+                    "${input:projectType}",
+                    "${input:virtualEnv}",
+                    "${input:gitSetup}"
+                ],
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "panel": "new",
+                    "showReuseMessage": false,
+                    "clear": true
+                },
+                "problemMatcher": []
+            }
+        ],
+        "inputs": [
+            {
+                "id": "projectName",
+                "description": "Project name",
+                "default": "MyProject",
+                "type": "promptString"
+            },
+            {
+                "id": "projectLocation",
+                "description": "Parent directory for new project",
+                "default": "F:\\Project\\",
+                "type": "promptString"
+            },
+            {
+                "id": "projectType",
+                "description": "Project type",
+                "type": "pickString",
+                "options": [
+                    "Python (Data Science)",
+                    "Python (Standard)",
+                    "None"
+                ],
+                "default": "None"
+            },
+            {
+                "id": "virtualEnv",
+                "description": "Virtual environment setup",
+                "type": "pickString",
+                "options": [
+                    "Poetry",
+                    "None"
+                ],
+                "default": "None"
+            },
+            {
+                "id": "gitSetup",
+                "description": "Git setup",
+                "type": "pickString",
+                "options": [
+                    "Yes",
+                    "No"
+                ],
+                "default": "No"
+            }
+        ]
+    },
+    "keybindings": [
+        {
+            "key": "alt+n",
+            "command": "workbench.action.tasks.runTask",
+            "args": "Create Python Project"
+        }
+    ]
+}

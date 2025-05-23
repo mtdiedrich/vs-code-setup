@@ -8,7 +8,7 @@
                 "command": "powershell",
                 "args": [
                     "-ExecutionPolicy", "Bypass",
-                    "-File", "F:\\Project\\VSCode\\create-project.ps1",
+                    "-File", "create-project.ps1",
                     "${input:projectName}",
                     "${input:projectLocation}",
                     "${input:projectType}",
@@ -30,13 +30,13 @@
             {
                 "id": "projectName",
                 "description": "Project name",
-                "default": "MyProject",
+                "default": "",
                 "type": "promptString"
             },
             {
                 "id": "projectLocation",
                 "description": "Parent directory for new project",
-                "default": "F:\\Project\\",
+                "default": "F:\\Project",
                 "type": "promptString"
             },
             {

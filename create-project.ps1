@@ -210,25 +210,6 @@ htmlcov/
     if ($GitSetup -eq "Yes") {
         $readmeContent = @"
 # $ProjectName
-
-## Setup
-
-1. Install dependencies:
-   ```powershell
-   poetry install
-   ```
-
-2. Activate virtual environment:
-   ```powershell
-   poetry shell
-   ```
-
-## Project Structure
-
-- data/ - Data files
-- src/ - Source code  
-- notebooks/ - Jupyter notebooks
-
 "@
         
         Set-Content -Path "README.md" -Value $readmeContent

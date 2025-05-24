@@ -1,6 +1,6 @@
-# VS Code Project Creator
+# VS Code Setup
 
-Horrific README written entirely by Claude Sonnet 4.
+Horrific README written entirely by Claude Sonnet 4. I have not reviewed it for accuracy.
 
 🚀 **Revolutionize your development workflow! Instantly create new projects with customizable folder structures, virtual environments, and git initialization - all from within VS Code!**
 
